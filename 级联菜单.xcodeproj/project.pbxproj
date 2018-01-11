@@ -15,6 +15,7 @@
 		CFD0A02B200746F3006EA6B9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD0A02A200746F3006EA6B9 /* main.m */; };
 		CFD0A035200746F3006EA6B9 /* ____Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD0A034200746F3006EA6B9 /* ____Tests.m */; };
 		CFD0A040200746F3006EA6B9 /* ____UITests.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD0A03F200746F3006EA6B9 /* ____UITests.m */; };
+		CFD0A04E20074A47006EA6B9 /* Property List.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFD0A04D20074A47006EA6B9 /* Property List.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		CFD0A03B200746F3006EA6B9 /* 级联菜单UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "级联菜单UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFD0A03F200746F3006EA6B9 /* ____UITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "____UITests.m"; sourceTree = "<group>"; };
 		CFD0A041200746F3006EA6B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CFD0A04D20074A47006EA6B9 /* Property List.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Property List.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +83,7 @@
 		CFD0A00F200746F3006EA6B9 = {
 			isa = PBXGroup;
 			children = (
+				CFD0A04D20074A47006EA6B9 /* Property List.plist */,
 				CFD0A01A200746F3006EA6B9 /* 级联菜单 */,
 				CFD0A033200746F3006EA6B9 /* 级联菜单Tests */,
 				CFD0A03E200746F3006EA6B9 /* 级联菜单UITests */,
@@ -199,7 +202,7 @@
 				TargetAttributes = {
 					CFD0A017200746F3006EA6B9 = {
 						CreatedOnToolsVersion = 9.1;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					CFD0A02F200746F3006EA6B9 = {
 						CreatedOnToolsVersion = 9.1;
@@ -240,6 +243,7 @@
 			files = (
 				CFD0A028200746F3006EA6B9 /* LaunchScreen.storyboard in Resources */,
 				CFD0A025200746F3006EA6B9 /* Assets.xcassets in Resources */,
+				CFD0A04E20074A47006EA6B9 /* Property List.plist in Resources */,
 				CFD0A023200746F3006EA6B9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -430,11 +434,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "级联菜单/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Foundation.----";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -443,11 +449,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "级联菜单/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Foundation.----";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
