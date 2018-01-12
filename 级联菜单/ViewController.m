@@ -53,55 +53,14 @@ static NSString *const resueIdright = @"rightCell";
 }
 
 
-#pragma mark - 直接刷新
-#pragma mark ~~~~~~~~~~ TableViewDataSource ~~~~~~~~~~
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (tableView == self.leftTable) {
-        return self.array.count;
-    }
-    // 获取选中leftTable那一行的数组
-    NSArray *arr = [self.array valueForKey:@"content"][self.leftTable.indexPathForSelectedRow.row];
-    return arr.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = nil;
-    if (tableView == self.leftTable) {
-        cell = [tableView dequeueReusableCellWithIdentifier:resueIdleft];
-        cell.textLabel.text = [self.array valueForKey:@"title"][indexPath.row];
-        return cell;
-    } else {
-        cell = [tableView dequeueReusableCellWithIdentifier:resueIdright];
-        // 获取选中leftTable那一行的数组
-        NSArray *arr = [self.array valueForKey:@"content"][self.leftTable.indexPathForSelectedRow.row];
-        cell.textLabel.text = arr[indexPath.row];
-        return cell;
-    }
-}
-
-#pragma mark ~~~~~~~~~~ TableViewDelegate ~~~~~~~~~~
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (tableView == self.leftTable) {
-        [self.rightTable reloadData];
-    }
-}
-
-
-//#pragma mark - 滚动刷新
+//#pragma mark - 直接刷新
 //#pragma mark ~~~~~~~~~~ TableViewDataSource ~~~~~~~~~~
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//    if (tableView == self.rightTable) {
-//        return self.array.count;
-//    }
-//    return 1;
-//}
-//
 //- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 //    if (tableView == self.leftTable) {
 //        return self.array.count;
 //    }
 //    // 获取选中leftTable那一行的数组
-//    NSArray *arr = [self.array valueForKey:@"content"][section];
+//    NSArray *arr = [self.array valueForKey:@"content"][self.leftTable.indexPathForSelectedRow.row];
 //    return arr.count;
 //}
 //
@@ -114,47 +73,88 @@ static NSString *const resueIdright = @"rightCell";
 //    } else {
 //        cell = [tableView dequeueReusableCellWithIdentifier:resueIdright];
 //        // 获取选中leftTable那一行的数组
-//        NSArray *arr = [self.array valueForKey:@"content"][indexPath.section];
+//        NSArray *arr = [self.array valueForKey:@"content"][self.leftTable.indexPathForSelectedRow.row];
 //        cell.textLabel.text = arr[indexPath.row];
 //        return cell;
 //    }
 //}
 //
 //#pragma mark ~~~~~~~~~~ TableViewDelegate ~~~~~~~~~~
-//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-//    if (tableView == self.rightTable) {
-//        return [self.array valueForKey:@"title"][section];
-//    }
-//    return nil;
-//}
-//
-//- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-//    return 1;
-//}
-//
 //- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 //    if (tableView == self.leftTable) {
-//        [self.rightTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:indexPath.row] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-//        self.isSelected = YES;
+//        [self.rightTable reloadData];
 //    }
 //}
-//
-//- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
-//    if (tableView == self.rightTable) {
-//        if (self.isSelected) {
-//            return;
-//        }
-//        NSInteger currentSection = [[[self.rightTable indexPathsForVisibleRows] firstObject] section];
-//        NSLog(@"%zd",currentSection);
-//        NSIndexPath *index = [NSIndexPath indexPathForRow:currentSection inSection:0];
-//        [self.leftTable selectRowAtIndexPath:index animated:YES scrollPosition:UITableViewScrollPositionTop];
-//    }
-//}
-//
-//// 开始拖动赋值没有点击
-//- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
-//    self.isSelected = NO;
-//}
+
+
+#pragma mark - 滚动刷新
+#pragma mark ~~~~~~~~~~ TableViewDataSource ~~~~~~~~~~
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    if (tableView == self.rightTable) {
+        return self.array.count;
+    }
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (tableView == self.leftTable) {
+        return self.array.count;
+    }
+    // 获取选中leftTable那一行的数组
+    NSArray *arr = [self.array valueForKey:@"content"][section];
+    return arr.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = nil;
+    if (tableView == self.leftTable) {
+        cell = [tableView dequeueReusableCellWithIdentifier:resueIdleft];
+        cell.textLabel.text = [self.array valueForKey:@"title"][indexPath.row];
+        return cell;
+    } else {
+        cell = [tableView dequeueReusableCellWithIdentifier:resueIdright];
+        // 获取选中leftTable那一行的数组
+        NSArray *arr = [self.array valueForKey:@"content"][indexPath.section];
+        cell.textLabel.text = arr[indexPath.row];
+        return cell;
+    }
+}
+
+#pragma mark ~~~~~~~~~~ TableViewDelegate ~~~~~~~~~~
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (tableView == self.rightTable) {
+        return [self.array valueForKey:@"title"][section];
+    }
+    return nil;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (tableView == self.leftTable) {
+        [self.rightTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:indexPath.row] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        self.isSelected = YES;
+    }
+}
+
+// 头部视图将要显示时调用
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
+    if (tableView == self.rightTable) {
+        // 判断，如果是左边点击触发的滚动，这不执行下面代码
+        if (self.isSelected) {
+            return;
+        }
+        // 获取可见视图的第一个row
+        NSInteger currentSection = [[[self.rightTable indexPathsForVisibleRows] firstObject] section];
+        NSIndexPath *index = [NSIndexPath indexPathForRow:currentSection inSection:0];
+        // 点击左边对应区块
+        [self.leftTable selectRowAtIndexPath:index animated:YES scrollPosition:UITableViewScrollPositionTop];
+    }
+}
+
+// 开始拖动赋值没有点击
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    // 当右边视图将要开始拖动时，则认为没有被点击了。
+    self.isSelected = NO;
+}
 
 
 @end
