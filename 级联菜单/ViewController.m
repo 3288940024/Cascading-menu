@@ -52,22 +52,15 @@ static NSString *const resueIdright = @"rightCell";
     [self.rightTable registerClass:[UITableViewCell class] forCellReuseIdentifier:resueIdright];
 }
 
-/**
+
 #pragma mark - 直接刷新
 #pragma mark ~~~~~~~~~~ TableViewDataSource ~~~~~~~~~~
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if (tableView == self.rightTable) {
-        return self.array.count;
-    }
-    return 1;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == self.leftTable) {
         return self.array.count;
     }
     // 获取选中leftTable那一行的数组
-    NSArray *arr = [self.array valueForKey:@"content"][section];
+    NSArray *arr = [self.array valueForKey:@"content"][self.leftTable.indexPathForSelectedRow.row];
     return arr.count;
 }
 
@@ -80,96 +73,88 @@ static NSString *const resueIdright = @"rightCell";
     } else {
         cell = [tableView dequeueReusableCellWithIdentifier:resueIdright];
         // 获取选中leftTable那一行的数组
-        NSArray *arr = [self.array valueForKey:@"content"][indexPath.section];
+        NSArray *arr = [self.array valueForKey:@"content"][self.leftTable.indexPathForSelectedRow.row];
         cell.textLabel.text = arr[indexPath.row];
         return cell;
     }
 }
 
 #pragma mark ~~~~~~~~~~ TableViewDelegate ~~~~~~~~~~
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (tableView == self.rightTable) {
-        return [self.array valueForKey:@"title"][section];
-    }
-    return nil;
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == self.leftTable) {
-//        [self.rightTable reloadData];
-        [self.rightTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:indexPath.row] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    }
-}
-*/
-
-#pragma mark - 滚动刷新
-#pragma mark ~~~~~~~~~~ TableViewDataSource ~~~~~~~~~~
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if (tableView == self.rightTable) {
-        return self.array.count;
-    }
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (tableView == self.leftTable) {
-        return self.array.count;
-    }
-    // 获取选中leftTable那一行的数组
-    NSArray *arr = [self.array valueForKey:@"content"][section];
-    return arr.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = nil;
-    if (tableView == self.leftTable) {
-        cell = [tableView dequeueReusableCellWithIdentifier:resueIdleft];
-        cell.textLabel.text = [self.array valueForKey:@"title"][indexPath.row];
-        return cell;
-    } else {
-        cell = [tableView dequeueReusableCellWithIdentifier:resueIdright];
-        // 获取选中leftTable那一行的数组
-        NSArray *arr = [self.array valueForKey:@"content"][indexPath.section];
-        cell.textLabel.text = arr[indexPath.row];
-        return cell;
+        [self.rightTable reloadData];
     }
 }
 
-#pragma mark ~~~~~~~~~~ TableViewDelegate ~~~~~~~~~~
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (tableView == self.rightTable) {
-        return [self.array valueForKey:@"title"][section];
-    }
-    return nil;
-}
 
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 1;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (tableView == self.leftTable) {
-        [self.rightTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:indexPath.row] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-        self.isSelected = YES;
-    }
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
-    if (tableView == self.rightTable) {
-        if (self.isSelected) {
-            return;
-        }
-        NSInteger currentSection = [[[self.rightTable indexPathsForVisibleRows] firstObject] section];
-        NSLog(@"%zd",currentSection);
-        NSIndexPath *index = [NSIndexPath indexPathForRow:currentSection inSection:0];
-        [self.leftTable selectRowAtIndexPath:index animated:YES scrollPosition:UITableViewScrollPositionTop];
-    }
-}
-
-// 开始拖动赋值没有点击
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
-    self.isSelected = NO;
-}
+//#pragma mark - 滚动刷新
+//#pragma mark ~~~~~~~~~~ TableViewDataSource ~~~~~~~~~~
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+//    if (tableView == self.rightTable) {
+//        return self.array.count;
+//    }
+//    return 1;
+//}
+//
+//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+//    if (tableView == self.leftTable) {
+//        return self.array.count;
+//    }
+//    // 获取选中leftTable那一行的数组
+//    NSArray *arr = [self.array valueForKey:@"content"][section];
+//    return arr.count;
+//}
+//
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    UITableViewCell *cell = nil;
+//    if (tableView == self.leftTable) {
+//        cell = [tableView dequeueReusableCellWithIdentifier:resueIdleft];
+//        cell.textLabel.text = [self.array valueForKey:@"title"][indexPath.row];
+//        return cell;
+//    } else {
+//        cell = [tableView dequeueReusableCellWithIdentifier:resueIdright];
+//        // 获取选中leftTable那一行的数组
+//        NSArray *arr = [self.array valueForKey:@"content"][indexPath.section];
+//        cell.textLabel.text = arr[indexPath.row];
+//        return cell;
+//    }
+//}
+//
+//#pragma mark ~~~~~~~~~~ TableViewDelegate ~~~~~~~~~~
+//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+//    if (tableView == self.rightTable) {
+//        return [self.array valueForKey:@"title"][section];
+//    }
+//    return nil;
+//}
+//
+//- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+//    return 1;
+//}
+//
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//    if (tableView == self.leftTable) {
+//        [self.rightTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:indexPath.row] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+//        self.isSelected = YES;
+//    }
+//}
+//
+//- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
+//    if (tableView == self.rightTable) {
+//        if (self.isSelected) {
+//            return;
+//        }
+//        NSInteger currentSection = [[[self.rightTable indexPathsForVisibleRows] firstObject] section];
+//        NSLog(@"%zd",currentSection);
+//        NSIndexPath *index = [NSIndexPath indexPathForRow:currentSection inSection:0];
+//        [self.leftTable selectRowAtIndexPath:index animated:YES scrollPosition:UITableViewScrollPositionTop];
+//    }
+//}
+//
+//// 开始拖动赋值没有点击
+//- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+//    self.isSelected = NO;
+//}
 
 
 @end
